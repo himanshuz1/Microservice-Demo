@@ -1,53 +1,36 @@
-package com.currency.exchange.dto;
+package com.currency.conversion.dto;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.StringJoiner;
 
-@Entity
-public class ExchangeValue implements Serializable {
+public class CurrencyConversion {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "currency_from")
     private String from;
 
-    @Column(name = "currency_to")
     private String to;
 
-    @Column(precision = 20, scale = 8)
     private BigDecimal conversionMultiple;
 
+    private BigDecimal quantity;
 
-    private transient int port;
+    private BigDecimal calculatedAmount;
 
-    public ExchangeValue() {
+    private int port;
+
+    public CurrencyConversion() {
     }
 
-    public ExchangeValue(Long id, String from, String to, BigDecimal conversionMultiple) {
+    public CurrencyConversion(Long id, String from, String to, BigDecimal conversionMultiple, BigDecimal quantity, BigDecimal calculatedAmount, int port) {
         this.id = id;
         this.from = from;
         this.to = to;
         this.conversionMultiple = conversionMultiple;
-    }
-
-    public ExchangeValue(String from, String to, BigDecimal conversionMultiple) {
-        this.from = from;
-        this.to = to;
-        this.conversionMultiple = conversionMultiple;
-    }
-
-    public ExchangeValue(String from, String to, BigDecimal conversionMultiple, int port) {
-        this.from = from;
-        this.to = to;
-        this.conversionMultiple = conversionMultiple;
+        this.quantity = quantity;
+        this.calculatedAmount = calculatedAmount;
         this.port = port;
     }
-
-
 
     /**
      * get field
@@ -124,6 +107,42 @@ public class ExchangeValue implements Serializable {
     /**
      * get field
      *
+     * @return quantity
+     */
+    public BigDecimal getQuantity() {
+        return this.quantity;
+    }
+
+    /**
+     * set field
+     *
+     * @param quantity
+     */
+    public void setQuantity(BigDecimal quantity) {
+        this.quantity = quantity;
+    }
+
+    /**
+     * get field
+     *
+     * @return calculatedAmount
+     */
+    public BigDecimal getCalculatedAmount() {
+        return this.calculatedAmount;
+    }
+
+    /**
+     * set field
+     *
+     * @param calculatedAmount
+     */
+    public void setCalculatedAmount(BigDecimal calculatedAmount) {
+        this.calculatedAmount = calculatedAmount;
+    }
+
+    /**
+     * get field
+     *
      * @return port
      */
     public int getPort() {
@@ -141,11 +160,13 @@ public class ExchangeValue implements Serializable {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", ExchangeValue.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", CurrencyConversion.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
                 .add("from='" + from + "'")
                 .add("to='" + to + "'")
                 .add("conversionMultiple=" + conversionMultiple)
+                .add("quantity=" + quantity)
+                .add("calculatedAmount=" + calculatedAmount)
                 .add("port=" + port)
                 .toString();
     }

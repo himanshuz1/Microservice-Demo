@@ -1,6 +1,6 @@
 package com.currency.exchange.repo;
 
-import com.currency.exchange.dto.ExchangeValue;
+import com.currency.exchange.entity.ExchangeValue;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
