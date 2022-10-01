@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
  *
  */
 //@FeignClient(name = "currency-exchange-service", url = "http://localhost:8000")
-@FeignClient(name = "currency-exchange-service")
+//@FeignClient(name = "currency-exchange-service")
+@FeignClient(name = "api-gateway")
 public interface CurrencyExchangeService {
-    @GetMapping("/api/v1/exchange-value/{from}/to/{to}")
+    @GetMapping("currency-exchange-service/api/v1/exchange-value/{from}/to/{to}")
     public CurrencyConversion getExchangeValue(@PathVariable("from") String from, @PathVariable("to") String to);
 }

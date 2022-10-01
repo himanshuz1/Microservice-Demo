@@ -2,6 +2,8 @@ package com.currency.exchange.controller;
 
 import com.currency.exchange.entity.ExchangeValue;
 import com.currency.exchange.repo.ExchangeValueRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.core.env.Environment;
@@ -16,6 +18,8 @@ public class CurrencyExchangeController {
 
     @Autowired
     private Environment environment;
+
+    private Logger logger= LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private ExchangeValueRepo exchangeValueRepo;
@@ -36,11 +40,15 @@ public class CurrencyExchangeController {
         ExchangeValue exchangeValue4 = new ExchangeValue("INR", "EUR", new BigDecimal("0.61"));
         list.add(exchangeValue4);
         exchangeValueRepo.saveAll(list);*/
-
-        System.out.println("port==="+port);
         ExchangeValue exchangeValue = exchangeValueRepo.findByFromAndTo(from, to);
+        logger.info("exchangeValue==={}",exchangeValue);
         exchangeValue.setPort(port);
         return exchangeValue;
     }
 
 }
+
+
+
+
+

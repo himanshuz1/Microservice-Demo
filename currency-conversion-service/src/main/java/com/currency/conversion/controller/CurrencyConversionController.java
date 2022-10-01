@@ -51,7 +51,7 @@ public class CurrencyConversionController {
      */
     @GetMapping("/api/v1/currency-conversion-feign/{from}/to/{to}/{quantity}")
     public CurrencyConversion getExchangeValueByFeign(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
-        int port = Integer.parseInt(Objects.requireNonNull(environment.getProperty("local.server.port")));
+        //int port = Integer.parseInt(Objects.requireNonNull(environment.getProperty("local.server.port")));
         CurrencyConversion currencyConversion = currencyExchangeService.getExchangeValue(from, to);
         System.out.println("currencyConversion=="+currencyConversion);
         if (Objects.nonNull(currencyConversion)) {
