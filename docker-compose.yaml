@@ -11,6 +11,33 @@ services:
     environment:
        SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://registry-service:8761/eureka"}}}}'
 
+  db:
+    image: mysql:latest   
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=db_example
+    ports:
+      - "3309:3306"
+    restart: always
+    networks:
+      - currency-network
+
+  currency-exchange:
+    image: himanshuz1707/microservice_v2-currency-exchange-service:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports: 
+      - "8000:8000"
+    networks:
+      - currency-network
+    depends_on:
+      - registry-service
+      - db
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://registry-service:8761/eureka"}}}}'
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_example?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+
   registry-service:
     image: himanshuz1707/microservice_v2-registry-service:0.0.1-SNAPSHOT
     mem_limit: 700m
