@@ -1,0 +1,23 @@
+services:
+  currency-conversion:
+    image: himanshuz1707/microservice_v2-currency-conversion-service:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports: 
+      - "9000:9000"
+    networks:
+      - currency-network
+    depends_on:
+      - registry-service
+    environment:
+       SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://registry-service:8761/eureka"}}}}'
+
+  registry-service:
+    image: himanshuz1707/microservice_v2-registry-service:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports: 
+      - "8761:8761"
+    networks:
+      - currency-network
+
+networks:
+  currency-network:
