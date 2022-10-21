@@ -9,8 +9,12 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -19,7 +23,7 @@ public class CurrencyExchangeController {
     @Autowired
     private Environment environment;
 
-    private Logger logger= LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private ExchangeValueRepo exchangeValueRepo;
@@ -41,9 +45,24 @@ public class CurrencyExchangeController {
         list.add(exchangeValue4);
         exchangeValueRepo.saveAll(list);*/
         ExchangeValue exchangeValue = exchangeValueRepo.findByFromAndTo(from, to);
-        logger.info("exchangeValue==={}",exchangeValue);
+        logger.info("exchangeValue==={}", exchangeValue);
         exchangeValue.setPort(port);
         return exchangeValue;
+    }
+
+
+    @PostMapping("/api/v1/exchange-value")
+    public List<ExchangeValue> saveExchangeValue() {
+        List<ExchangeValue> list = new ArrayList<>();
+        ExchangeValue exchangeValue1 = new ExchangeValue("USD", "INR", new BigDecimal("75.00"));
+        list.add(exchangeValue1);
+        ExchangeValue exchangeValue2 = new ExchangeValue("EUR", "INR", new BigDecimal("61.00"));
+        list.add(exchangeValue2);
+        ExchangeValue exchangeValue3 = new ExchangeValue("INR", "USD", new BigDecimal("00.75"));
+        list.add(exchangeValue3);
+        ExchangeValue exchangeValue4 = new ExchangeValue("INR", "EUR", new BigDecimal("0.61"));
+        list.add(exchangeValue4);
+        return exchangeValueRepo.saveAll(list);
     }
 
 }

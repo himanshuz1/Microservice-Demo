@@ -8,8 +8,13 @@ services:
       - currency-network
     depends_on:
       - registry-service
+      - rabbitmq
     environment:
        SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://registry-service:8761/eureka"}}}}'
+       SPRING_ZIPKIN_BASEURL: http://zipkin-server:9411/
+       SPRING_ZIPKIN_SENDER_TYPE: rabbit
+       SPRING_RABBITMQ_HOST: rabbitmq
+       RABBIT_URI: amqp://guest:guest@rabbitmq:5672
 
   db:
     image: mysql:latest   
@@ -19,6 +24,42 @@ services:
     ports:
       - "3309:3306"
     restart: always
+    networks:
+      - currency-network
+
+  api-gateway:
+    image: himanshuz1707/microservice_v2-api-gateway:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports: 
+      - "8765:8765"
+    networks:
+      - currency-network
+    depends_on:
+      - registry-service
+      - rabbitmq
+    environment:
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://registry-service:8761/eureka"}}}}'
+      SPRING_ZIPKIN_BASEURL: http://zipkin-server:9411/
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      SPRING_RABBITMQ_HOST: rabbitmq
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+
+  zipkin-server:
+    image: openzipkin/zipkin:2.23
+    mem_limit: 700m
+    ports: 
+      - "9411:9411"
+    networks: 
+      - currency-network
+    environment:
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+
+  rabbitmq:
+    image: rabbitmq:3.5.3-management
+    mem_limit: 700m
+    ports: 
+      - "5673:5672"
+      - "15673:15672"
     networks:
       - currency-network
 
@@ -32,11 +73,16 @@ services:
     depends_on:
       - registry-service
       - db
+      - rabbitmq
     environment:
       SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://registry-service:8761/eureka"}}}}'
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_example?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
+      SPRING_ZIPKIN_BASEURL: http://zipkin-server:9411/
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      SPRING_RABBITMQ_HOST: rabbitmq
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
 
   registry-service:
     image: himanshuz1707/microservice_v2-registry-service:0.0.1-SNAPSHOT
