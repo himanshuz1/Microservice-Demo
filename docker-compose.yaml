@@ -39,7 +39,7 @@ services:
       - rabbitmq
     environment:
       SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://registry-service:8761/eureka"}}}}'
-      SPRING_ZIPKIN_BASEURL: http://zipkin-server:9411/
+      SPRING_ZIPKIN_BASEURL: http://zipkin-server:9451/
       SPRING_ZIPKIN_SENDER_TYPE: rabbit
       SPRING_RABBITMQ_HOST: rabbitmq
       RABBIT_URI: amqp://guest:guest@rabbitmq:5672
