@@ -22,9 +22,9 @@ public class EmployeeController {
 
     @GetMapping("{name}")
     public ResponseEntity<Object> testWebClientCall(@PathVariable("name") String name) {
-        // String response = webClient.get().uri("http://localhost:8081/api/v1/himanshu/test").retrieve().bodyToMono(String.class).block();
+       // String response = webClient.get().uri("http://localhost:2000/api/v1/himanshu/test").retrieve().bodyToMono(String.class).block();
         ResponseEntity<String> responseEntity = departmentFeignClient.testDepartment(name);
         log.debug("responseEntity from department service==={}", responseEntity);
-        return ResponseEntity.ok("response from department service in emp service===" + responseEntity.getBody() + "__________" + name);
+        return ResponseEntity.ok("response from department service in emp service===" + responseEntity + "__________" + name);
     }
 }
