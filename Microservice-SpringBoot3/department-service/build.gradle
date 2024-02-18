@@ -32,7 +32,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -43,7 +42,9 @@ dependencies {
 	implementation group: 'io.github.openfeign', name: 'feign-micrometer', version: '13.1'
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-bus-amqp
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bus-amqp', version: '4.0.1'
-
+	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.2.2'
 }
 
 dependencyManagement {
